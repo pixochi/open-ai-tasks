@@ -8,7 +8,6 @@ Inspired by: https://www.learndatasci.com/tutorials/reinforcement-q-learning-scr
 """
 
 import gym
-from time import sleep
 import numpy as np
 import random
 
@@ -62,6 +61,7 @@ for i in range(1, 100001):
         print(f"Episode: {i}")
 
 print("Training finished.\n")
+
 
 # =============================================================================
 # EVALUATION OF THE AGENT AFTER Q-LEARNING
