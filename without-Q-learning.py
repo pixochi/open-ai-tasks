@@ -63,32 +63,44 @@ def print_frames(frames):
         print(f"Reward: {frame['reward']}")
         sleep(.1)
 
-rewardTotal = 0
-penalties = 0
-epochs = 0
-done = False
-frames = []
+# =============================================================================
+# EVALUATION WITHOUT Q-LEARNING
+# =============================================================================
+        
+epochs_total = 0
+penalties_total = 0
+episodes = 100
 
-while not done:
-    action = env.action_space.sample()
-    state, reward, done, info = env.step(action)
-    rewardTotal += reward
+for _ in range(episodes):
+    epochs = 0
+    penalties = 0
+    done = False
+    frames = []
+    state = env.reset()   
     
-    if reward == -10:
-        penalties += 1
+    while not done:
+        action = env.action_space.sample()
+        state, reward, done, info = env.step(action)
         
-    frames.append({
-            'action': action,
-            'state': state,
-            'reward': reward,
-            'frame': env.render(mode='ansi')
-    })
-    epochs += 1
-        
-print(f"Epochs: {epochs}")
-print(f"Penalties: {penalties}")
-        
-#print_frames(frames)
+        if reward == -10:
+            penalties += 1
+            
+        frames.append({
+                'action': action,
+                'state': state,
+                'reward': reward,
+                'frame': env.render(mode='ansi')
+        })
+        epochs += 1
+    
+    epochs_total += epochs
+    penalties_total += penalties
+            
+    #print_frames(frames)
+
+print(f"Results after {episodes} episodes:")
+print(f"Average timesteps per episode: {epochs_total / episodes}")
+print(f"Average penalties per episode: {penalties_total / episodes}")
 
 
 
