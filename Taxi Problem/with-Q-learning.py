@@ -25,30 +25,31 @@ available_actions_count = env.action_space.n
 Q_table = np.zeros([possible_states_count, available_actions_count])
 
 # Hyperparameters
-alpha = 0.1 # Learning rate
-gamma = 0.6 # Discount factor
-epsilon = 0.1 # Probability of taking a random action
+alpha = 0.1  # Learning rate
+gamma = 0.6  # Discount factor
+epsilon = 0.1  # Probability of taking a random action
 
 for i in range(1, 100001):
     state = env.reset()
 
     epochs = 0
-    penalties = 0 # For wrong pickup/dropoff actions
+    penalties = 0  # For wrong pickup/dropoff actions
     reward = 0
     done = False
-    
+
     while not done:
         if random.uniform(0, 1) < epsilon:
-            action = env.action_space.sample() # Explore action space
+            action = env.action_space.sample()  # Explore action space
         else:
-            action = np.argmax(Q_table[state]) # Exploit the Q-table
+            action = np.argmax(Q_table[state])  # Exploit the Q-table
 
-        next_state, reward, done, info = env.step(action) 
-        
+        next_state, reward, done, info = env.step(action)
+
         current_Q_value = Q_table[state, action]
         next_state_max_Q_value = np.max(Q_table[next_state])
-        
-        new_Q_value = (1 - alpha) * current_Q_value + alpha * (reward + gamma * next_state_max_Q_value)
+
+        new_Q_value = (1 - alpha) * current_Q_value + alpha * (
+            reward + gamma * next_state_max_Q_value)
         Q_table[state, action] = new_Q_value
 
         if reward == -10:
@@ -56,12 +57,11 @@ for i in range(1, 100001):
 
         state = next_state
         epochs += 1
-        
+
     if i % 100 == 0:
         print(f"Episode: {i}")
 
 print("Training finished.\n")
-
 
 # =============================================================================
 # EVALUATION OF THE AGENT AFTER Q-LEARNING
@@ -75,8 +75,8 @@ for _ in range(episodes):
     epochs = 0
     penalties = 0
     done = False
-    state = env.reset()    
-    
+    state = env.reset()
+
     while not done:
         action = np.argmax(Q_table[state])
         state, reward, done, info = env.step(action)

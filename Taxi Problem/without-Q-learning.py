@@ -24,7 +24,6 @@ from time import sleep
 #   - done: the correct dropoff
 # =============================================================================
 
-
 ENVIRONMENT_NAME = "Taxi-v2"
 
 # We are using the .env on the end of make to avoid training stopping at 200 iterations.
@@ -53,6 +52,7 @@ env.reset()
 
 #env.render()
 
+
 def print_frames(frames):
     for i, frame in enumerate(frames):
         clear_output(wait=True)
@@ -63,10 +63,11 @@ def print_frames(frames):
         print(f"Reward: {frame['reward']}")
         sleep(.1)
 
+
 # =============================================================================
 # EVALUATION WITHOUT Q-LEARNING
 # =============================================================================
-        
+
 epochs_total = 0
 penalties_total = 0
 episodes = 100
@@ -76,35 +77,28 @@ for _ in range(episodes):
     penalties = 0
     done = False
     frames = []
-    state = env.reset()   
-    
+    state = env.reset()
+
     while not done:
         action = env.action_space.sample()
         state, reward, done, info = env.step(action)
-        
+
         if reward == -10:
             penalties += 1
-            
+
         frames.append({
-                'action': action,
-                'state': state,
-                'reward': reward,
-                'frame': env.render(mode='ansi')
+            'action': action,
+            'state': state,
+            'reward': reward,
+            'frame': env.render(mode='ansi')
         })
         epochs += 1
-    
+
     epochs_total += epochs
     penalties_total += penalties
-            
+
     #print_frames(frames)
 
 print(f"Results after {episodes} episodes:")
 print(f"Average timesteps per episode: {epochs_total / episodes}")
 print(f"Average penalties per episode: {penalties_total / episodes}")
-
-
-
-
-
-
-
