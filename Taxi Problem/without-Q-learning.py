@@ -31,9 +31,6 @@ env = gym.make(ENVIRONMENT_NAME).env
 
 env.reset()
 
-#print(f'Action Space {env.action_space}')
-#print(f'State Space {env.observation_space}')
-
 # filled square - the taxi
 #    yellow/red - without a passenger
 #    green - with a passenger

@@ -9,20 +9,31 @@ http://kvfrans.com/simple-algoritms-for-solving-cartpole/
 """
 
 import gym
-import numpy as np
 
 ENVIRONMENT_NAME = "CartPole-v0"
-
 env = gym.make(ENVIRONMENT_NAME).env
 
+# =============================================================================
+# RANDOM POLICY
+# =============================================================================
 
-def run_episode(env, weights):
-    observation = env.reset()
-    total_reward = 0
-    for _ in range(200):
-        action = 0 if np.matmul(weights, observation) < 0 else 1
-        observation, reward, done = env.step(action)
-        total_reward += reward
-        if done:
-            break
-    return total_reward
+score_total = 0
+episodes = 100
+
+for _ in range(episodes):
+    score = 0
+    done = False
+    state = env.reset()
+
+    while not done:
+        action = env.action_space.sample()
+        state, reward, done, info = env.step(action)
+
+        score += reward
+    
+    score_total += score
+
+env.close()
+print(f"Results after {episodes} episodes:")
+print(f"Average score per episode: {score_total / episodes}")
+

@@ -2,7 +2,7 @@
 """
 Created on Wed Sep  4 18:25:05 2019
 
-@author: Bruger
+@author: Jakub Kozak
 
 Inspired by: https://www.learndatasci.com/tutorials/reinforcement-q-learning-scratch-python-openai-gym/
 """
